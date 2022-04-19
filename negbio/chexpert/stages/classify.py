@@ -39,6 +39,8 @@ class ModifiedDetector(neg_detector.Detector):
             logging.exception('Cannot parse dependency graph [offset=%s]', sentence.offset)
             raise
         else:
+            print('Scannign sentence: '+sentence.text)
+            #print('Locs for sentence: '+locs)
             for loc in locs:
                 for node in neg_detector.find_nodes(g, loc[0], loc[1]):
                     # Match pre-negation uncertainty rules first.
@@ -47,6 +49,7 @@ class ModifiedDetector(neg_detector.Detector):
                         yield UNCERTAINTY, preneg_m, loc
                     else:
                         # Then match negation rules.
+                        print('node:'+node)
                         neg_m = self.match_neg(g, node)
                         if neg_m:
                             yield NEGATION, neg_m, loc

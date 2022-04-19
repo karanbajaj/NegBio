@@ -1,6 +1,7 @@
 import itertools
 import re
 import collections
+import logging
 
 L = '<'
 R = '>'
@@ -53,7 +54,8 @@ class NodePattern(NgrexPattern):
     def finditer(self, graph):
         for node in graph.nodes():
             if self._attributes:
-                if _match(self._attributes, graph.node[node]):
+             #print('attrib:{'+_attributes_to_str(self._attributes) + '}')   
+             if _match(self._attributes, graph.node[node]):
                     yield MatcherObj(self, graph, [(self._name, node)])
             else:
                 yield MatcherObj(self, graph, [(self._name, node)])
@@ -203,7 +205,10 @@ def _get_attributes_regex(attributes):
 
 def _match(attributes, element):
     for k, v in attributes.items():
-        if k not in element or not v.match(element[k]):
+        #print('element -k '+k)
+        #if k in element:
+            #print(','+str(element[k])) 
+        if k not in element or not v.match(str(element[k])):
             return False
     return True
 

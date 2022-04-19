@@ -39,16 +39,16 @@ def propagate(G):
                         edges.append(Edge(c, child, edge_dep))
             # propagate dep
             if d['dependency'] == 'dep' \
-                    and G.node[p]['tag'].startswith('N') \
-                    and G.node[c]['tag'].startswith('N'):
+                    and str(G.node[p]['tag']).startswith('N') \
+                    and str(G.node[c]['tag']).startswith('N'):
                 for grandchild in G.successors(c):
                     edge_dep = G[c][grandchild]['dependency']
                     if edge_dep == 'neg':
                         edges.append(Edge(p, grandchild, edge_dep))
             # propagate cop conjunction
-            if d['dependency'].startswith('conj') \
-                    and G.node[p]['tag'].startswith('N') \
-                    and G.node[c]['tag'].startswith('N'):
+            if str(d['dependency']).startswith('conj') \
+                    and str(G.node[p]['tag']).startswith('N') \
+                    and str(G.node[c]['tag']).startswith('N'):
                 for child in G.successors(p):
                     edge_dep = G[p][child]['dependency']
                     if edge_dep in ('aux', 'cop', 'neg', 'amod'):
@@ -88,7 +88,7 @@ def propagate(G):
         has_more_edges = False
         for e in edges:
             if not G.has_edge(e.gov, e.dep):
-                assert isinstance(e.data, str) or isinstance(e.data, unicode), type(e.data)
+                assert isinstance(str(e.data), bytes) or isinstance(str(e.data), str), type(str(e.data))
                 G.add_edge(e.gov, e.dep, dependency=e.data)
                 has_more_edges = True
 

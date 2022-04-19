@@ -167,7 +167,7 @@ def convert_dg(dependency_graph, text, offset, ann_index=0, rel_index=0, has_lem
     for node in dependency_graph:
         if node.index in annotation_id_map:
             continue
-        node_form = node.form
+        node_form = str(node.form)
         index = text.find(node_form, start)
         if index == -1:
             node_form = adapt_value(node.form)
@@ -182,7 +182,7 @@ def convert_dg(dependency_graph, text, offset, ann_index=0, rel_index=0, has_lem
         ann.text = node_form
         ann.infons['tag'] = node.pos
         if has_lemmas:
-            ann.infons['lemma'] = node.lemma.lower()
+            ann.infons['lemma'] = str(node.lemma).lower()
 
         start = index
 
